@@ -1,0 +1,74 @@
+<div id="choice-path-options" class="columns-{{columns}}">
+    <div class="title">
+        <h2>{{name}}</h2>
+    </div>
+
+    <div class="intro">
+        {{{intro}}}
+    </div>
+
+    <div class="options">
+        <div class="row">
+            {{#options}}
+                <div class="col-sm-12 col-md">
+                    <div class="card">
+                        <div class="image" style="background-image: url({{image}});" title="{{title}}" aria-label="{{title}}"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{title}}</h5>
+
+                            <div class="description">
+                                {{{description}}}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {{^hasanswer}}
+                            <form action="{{config.wwwroot}}/mod/choicepath/choose.php" method="POST" class="form-singlebutton">
+                                <input type="hidden" name="cmid" value="{{cmid}}">
+                                <input type="hidden" name="id" value="{{id}}">
+                            {{/hasanswer}}
+                                <button class="btn-choose-option btn btn-block btn-lg btn-outline-primary {{#hasanswer}}{{extraclass}}{{/hasanswer}}">{{#str}}selectthispath, mod_choicepath{{/str}}</button>
+                            {{^hasanswer}}
+                            </form>
+                            {{/hasanswer}}
+                        </div>
+                    </div>
+                </div>
+            {{/options}}
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-3">
+        {{#str}}choosepath:hasanswer, mod_choicepath{{/str}}
+    </div>
+</div>
+
+{{^hasanswer}}
+{{#js}}
+    require(['jquery', 'mod_choicepath/sweetalert'], function($, Swal) {
+        $("body").on("click", ".btn-choose-option", function(event) {
+            event.preventDefault();
+
+            var button = $(this);
+
+            Swal.fire({
+                title: '{{#str}}deleteitem:confirm_title, mod_choicepath{{/str}}',
+                text: '{{#str}}choosepath:confirm_msg, mod_choicepath{{/str}}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '{{#str}}choosepath:yes, mod_choicepath{{/str}}',
+                cancelButtonText: '{{#str}}choosepath:no, mod_choicepath{{/str}}'
+            }).then(function(result) {
+            if (result.value) {
+                const form = button.closest("form");
+
+                form.append('<input type="hidden" name="sesskey" value="{{config.sesskey}}">');
+
+                form.submit();
+                }
+            });
+        });
+    });
+{{/js}}
+{{/hasanswer}}

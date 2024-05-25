@@ -1,0 +1,60 @@
+<div class="mb-4 text-right">
+    <a href="{{config.wwwroot}}/mod/choicepath/options.php?cmid={{cmid}}&action=create"
+       class="btn btn-primary">
+        {{#str}}create, mod_choicepath{{/str}}
+    </a>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col" style="width: 100px;">#</th>
+        <th scope="col">{{#str}}title, mod_choicepath{{/str}}</th>
+        <th scope="col" style="width: 100px; text-align: center;">{{#str}}actions, mod_choicepath{{/str}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#options}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <td scope="row">{{title}}</td>
+            <td class="text-center">
+                <a href="{{config.wwwroot}}/mod/choicepath/options.php?cmid={{cmid}}&action=update&id={{id}}" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></a>
+                <form action="{{config.wwwroot}}/mod/choicepath/options.php?cmid={{cmid}}&action=delete" method="POST" class="form-singlebutton">
+                    <input type="hidden" name="id" value="{{id}}">
+                    <button class="btn-delete btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></button>
+                </form>
+            </td>
+        </tr>
+    {{/options}}
+    </tbody>
+</table>
+
+{{#js}}
+    require(['jquery', 'mod_choicepath/sweetalert'], function($, Swal) {
+        $("body").on("click", ".btn-delete", function(event) {
+            event.preventDefault();
+
+            var button = $(this);
+
+            Swal.fire({
+                title: '{{#str}}deleteitem:confirm_title, mod_choicepath{{/str}}',
+                text: '{{#str}}deleteitem:confirm_msg, mod_choicepath{{/str}}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '{{#str}}deleteitem:yes, mod_choicepath{{/str}}',
+                cancelButtonText: '{{#str}}deleteitem:no, mod_choicepath{{/str}}'
+            }).then(function(result) {
+                if (result.value) {
+                    const form = button.closest("form");
+
+                    form.append('<input type="hidden" name="sesskey" value="{{config.sesskey}}">');
+
+                    form.submit();
+                }
+            });
+        });
+    });
+{{/js}}

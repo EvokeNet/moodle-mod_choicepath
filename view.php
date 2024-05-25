@@ -58,6 +58,12 @@ $PAGE->set_title(format_string($moduleinstance->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($modulecontext);
 
+$renderer = $PAGE->get_renderer('mod_choicepath');
+
+$contentrenderable = new \mod_choicepath\output\view($cm, $moduleinstance);
+
 echo $OUTPUT->header();
+
+echo $renderer->render($contentrenderable);
 
 echo $OUTPUT->footer();

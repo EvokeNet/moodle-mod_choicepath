@@ -1,0 +1,43 @@
+#page-mod-choicepath-view #choice-path-options.columns-2 {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+#page-mod-choicepath-view #choice-path-options .title {
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(0, 0, 0, 1);
+    padding: 1em;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#page-mod-choicepath-view #choice-path-options .title h2 {
+    margin-bottom: 0;
+}
+
+#page-mod-choicepath-view #choice-path-options .intro {
+    background: rgb(20, 15, 63);
+    font-size: 1.3em;
+    color: rgb(184, 249, 7);
+    border: 1px solid rgba(0, 0, 0, 1);
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#page-mod-choicepath-view #choice-path-options .intro > * {
+    text-align: center;
+}
+
+#page-mod-choicepath-view #choice-path-options .image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 400px;
+    margin-bottom: 1em;
+    width: 100%;
+    background-position: center;
+}
+
+#page-mod-choicepath-view #choice-path-options .card-footer {
+    background-color: rgb(20, 15, 63);
+}

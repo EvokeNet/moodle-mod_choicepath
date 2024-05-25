@@ -28,5 +28,32 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Choice path';
 $string['modulename'] = 'Choice path';
 $string['modulenameplural'] = 'Choices path';
+$string['pluginadministration'] = 'Choice administration';
 
+$string['completionsubmit'] = 'Show as complete when user makes a choice';
 $string['completiondetail:submit'] = 'Make a choice';
+$string['options'] = 'Choice options';
+
+$string['create'] = 'Create';
+$string['title'] = 'Title';
+$string['description'] = 'Description';
+$string['actions'] = 'Actions';
+$string['deleteitem:confirm_title'] = 'Are you sure?';
+$string['deleteitem:confirm_msg'] = 'Are you sure you want to delete this item?';
+$string['deleteitem:yes'] = 'Yes';
+$string['deleteitem:no'] = 'No, it is a mistake!';
+
+$string['image'] = 'Image';
+
+$string['createitem:success'] = 'Item successfuly created';
+$string['updateitem:success'] = 'Item successfuly updated';
+$string['deleteitem:success'] = 'Item successfuly deleted';
+$string['something_went_wrong'] = 'Something went wrong';
+
+$string['selectthispath'] = 'Select this path';
+$string['choosepath:confirm_msg'] = 'Are you sure you want to choose this path? Once confirmed, you can not change it!';
+$string['choosepath:yes'] = 'Yes, I wanna it!';
+$string['choosepath:no'] = 'Nevermind';
+
+$string['choosepath:hasanswer'] = 'You already chose a path!';
+$string['choosepath:success'] = 'You chose a path! Good work!';

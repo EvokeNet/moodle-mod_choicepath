@@ -167,5 +167,50 @@ function choicepath_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
 
     require_login($course, true, $cm);
-    send_file_not_found();
+
+    $itemid = (int)array_shift($args);
+    if ($itemid == 0) {
+        return false;
+    }
+
+    $relativepath = implode('/', $args);
+
+    $fullpath = "/{$context->id}/mod_choicepath/$filearea/$itemid/$relativepath";
+
+    $fs = get_file_storage();
+    if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
+        return false;
+    }
+
+    send_stored_file($file, 0, 0, $forcedownload, $options);
+}
+
+/**
+ * This function extends the settings navigation block for the site.
+ *
+ * It is safe to rely on PAGE here as we will only ever be within the module
+ * context when this is called
+ *
+ * @param settings_navigation $settings
+ * @param navigation_node $choicepathnode
+ * @return void
+ */
+function choicepath_extend_settings_navigation(settings_navigation $settings, navigation_node $choicepathnode) {
+    // We want to add these new nodes after the Edit settings node, and before the
+    // Locally assigned roles node. Of course, both of those are controlled by capabilities.
+    $keys = $choicepathnode->get_children_key_list();
+    $beforekey = null;
+    $i = array_search('modedit', $keys);
+    if ($i === false and array_key_exists(0, $keys)) {
+        $beforekey = $keys[0];
+    } else if (array_key_exists($i + 1, $keys)) {
+        $beforekey = $keys[$i + 1];
+    }
+
+    if (has_capability('mod/choicepath:addinstance', $settings->get_page()->cm->context)) {
+        $node = navigation_node::create(get_string('options', 'mod_choicepath'),
+            new moodle_url('/mod/choicepath/options.php', ['cmid' => $settings->get_page()->cm->id]),
+            navigation_node::TYPE_SETTING, null, 'mod_choicepath_options', new pix_icon('t/edit', ''));
+        $choicepathnode->add_node($node, $beforekey);
+    }
 }
