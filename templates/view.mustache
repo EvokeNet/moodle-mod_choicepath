@@ -37,9 +37,11 @@
         </div>
     </div>
 
-    <div class="alert alert-info mt-3">
-        {{#str}}choosepath:hasanswer, mod_choicepath{{/str}}
-    </div>
+    {{#hasanswer}}
+        <div class="alert alert-info mt-3">
+            {{#str}}choosepath:hasanswer, mod_choicepath{{/str}}
+        </div>
+    {{/hasanswer}}
 </div>
 
 {{^hasanswer}}
