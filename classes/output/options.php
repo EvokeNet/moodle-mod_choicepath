@@ -48,7 +48,7 @@ class options implements renderable, templatable {
 
         return [
             'cmid' => $this->cm->id,
-            'options' => $model->get_all()
+            'options' => $model->get_all_by_cmid($this->cm->id)
         ];
     }
 }
