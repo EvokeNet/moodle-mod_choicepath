@@ -42,7 +42,7 @@ class option extends base {
             $draftitemid = file_get_submitted_draft_itemid('image');
             file_save_draft_area_files($draftitemid, $context->id, 'mod_choicepath', 'image', $data->id, ['subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['optimised_image']]);
 
-            return [true, get_string('updateitem_success', 'mod_choicepath')];
+            return [true, get_string('updateitem:success', 'mod_choicepath')];
         } catch (\Exception $e) {
             if ($CFG->debugdisplay) {
                 return [false, $e->getMessage()];

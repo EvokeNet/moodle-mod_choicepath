@@ -104,8 +104,8 @@ if ($formdata = $form->get_data()) {
     $option = new \stdClass();
     $option->choicepathid = $cm->id;
     $option->title = $formdata->title;
-    $option->description = $formdata->description;
-    $option->descriptionformat = 1;
+    $option->description = $formdata->description['text'];
+    $option->descriptionformat = $formdata->description['format'];
     $option->timemodified = time();
 
     $success = false;

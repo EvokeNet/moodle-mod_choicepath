@@ -24,11 +24,14 @@ class options extends \moodleform {
             $mform->setDefault('title', $this->_customdata->title);
         }
 
-        $mform->addElement('textarea', 'description', get_string('description', 'mod_choicepath'));
+        $mform->addElement('editor', 'description', get_string('description', 'mod_choicepath'));
         $mform->addRule('description', get_string('required'), 'required', null, 'client');
-        $mform->setType('description', PARAM_TEXT);
+        $mform->setType('description', PARAM_CLEANHTML);
         if (isset($this->_customdata->description)) {
-            $mform->setDefault('description', $this->_customdata->description);
+            $mform->setDefault('description', [
+                'text' => $this->_customdata->description,
+                'format' => $this->_customdata->descriptionformat ?? 1
+            ]);
         }
 
         $mform->addElement('filemanager', 'image', get_string('image', 'mod_choicepath'), null,
