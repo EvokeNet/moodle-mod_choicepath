@@ -62,7 +62,7 @@ $PAGE->set_context($modulecontext);
 $renderer = $PAGE->get_renderer('mod_choicepath');
 
 if (!$action) {
-    $contentrenderable = new \mod_choicepath\output\options($cm);
+    $contentrenderable = new \mod_choicepath\output\options($moduleinstance, $cm);
 
     echo $OUTPUT->header();
 
@@ -102,7 +102,7 @@ if ($form->is_cancelled()) {
 
 if ($formdata = $form->get_data()) {
     $option = new \stdClass();
-    $option->choicepathid = $cm->id;
+    $option->choicepathid = $moduleinstance->id;
     $option->title = $formdata->title;
     $option->description = $formdata->description['text'];
     $option->descriptionformat = $formdata->description['format'];
@@ -113,13 +113,13 @@ if ($formdata = $form->get_data()) {
     if ($action == 'create') {
         $option->timecreated = time();
 
-        list($success, $message) = $optionmodel->create($option);
+        list($success, $message) = $optionmodel->create($option, $modulecontext);
     }
 
     if ($action == 'update') {
         $option->id = $id;
 
-        list($success, $message) = $optionmodel->update($option);
+        list($success, $message) = $optionmodel->update($option, $modulecontext);
     }
 
     if ($success) {

@@ -96,12 +96,16 @@ function choicepath_update_instance($moduleinstance, $mform = null) {
 function choicepath_delete_instance($id) {
     global $DB;
 
-    $exists = $DB->get_record('choicepath', array('id' => $id));
+    $exists = $DB->get_record('choicepath', ['id' => $id]);
     if (!$exists) {
         return false;
     }
 
-    $DB->delete_records('choicepath', array('id' => $id));
+    $DB->delete_records('choicepath', ['id' => $id]);
+
+    $DB->delete_records('choicepath_options', ['choicepathid' => $id]);
+
+    $DB->delete_records('choicepath_answers', ['choicepathid' => $id]);
 
     return true;
 }

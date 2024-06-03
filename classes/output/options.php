@@ -37,9 +37,11 @@ use renderer_base;
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class options implements renderable, templatable {
+    protected $choicepath;
     protected $cm;
 
-    public function __construct($cm) {
+    public function __construct($choicepath, $cm) {
+        $this->choicepath = $choicepath;
         $this->cm = $cm;
     }
 
@@ -48,7 +50,7 @@ class options implements renderable, templatable {
 
         return [
             'cmid' => $this->cm->id,
-            'options' => $model->get_all_by_cmid($this->cm->id)
+            'options' => $model->get_all_by_choicepathid($this->choicepath->id)
         ];
     }
 }

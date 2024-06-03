@@ -38,11 +38,11 @@ use renderer_base;
  */
 class view implements renderable, templatable {
     protected $cm;
-    protected $choosepath;
+    protected $choicepath;
 
-    public function __construct($cm, $choosepath) {
+    public function __construct($cm, $choicepath) {
         $this->cm = $cm;
-        $this->choosepath = $choosepath;
+        $this->choicepath = $choicepath;
     }
 
     public function export_for_template(renderer_base $output) {
@@ -50,10 +50,10 @@ class view implements renderable, templatable {
 
         $model = new option();
 
-        $options = $model->get_all_by_cmid($this->cm->id);
+        $options = $model->get_all_by_choicepathid($this->choicepath->id);
 
         $hasanswer = $DB->get_record('choicepath_answers', [
-            'choicepathid' =>  $this->cm->id,
+            'choicepathid' =>  $this->choicepath->id,
             'userid' => $USER->id
         ]);
 
@@ -66,11 +66,10 @@ class view implements renderable, templatable {
             }
         }
 
-
         return [
             'cmid' => $this->cm->id,
-            'name' => format_string($this->choosepath->name),
-            'intro' => format_text($this->choosepath->intro, $this->choosepath->introformat),
+            'name' => format_string($this->choicepath->name),
+            'intro' => format_text($this->choicepath->intro, $this->choicepath->introformat),
             'options' => $options,
             'columns' => count($options),
             'hasanswer' => $hasanswer != null,

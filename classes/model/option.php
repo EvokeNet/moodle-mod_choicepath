@@ -2,19 +2,16 @@
 
 namespace mod_choicepath\model;
 
-use core\context\system as context_system;
 use core\context\module as context_module;
 
-class option extends base {
+class option {
     protected $table = 'choicepath_options';
 
-    public function create($data) {
+    public function create($data, $context) {
         global $DB, $CFG;
 
         try {
             $optionid = $DB->insert_record($this->table, $data);
-
-            $context = context_module::instance($data->choicepathid);
 
             // Process attachments.
             $draftitemid = file_get_submitted_draft_itemid('image');
@@ -30,13 +27,11 @@ class option extends base {
         }
     }
 
-    public function update($data) {
+    public function update($data, $context) {
         global $DB, $CFG;
 
         try {
             $DB->update_record($this->table, $data);
-
-            $context = context_module::instance($data->choicepathid);
 
             // Process attachments.
             $draftitemid = file_get_submitted_draft_itemid('image');
@@ -52,10 +47,10 @@ class option extends base {
         }
     }
 
-    public function get_all_by_cmid($cmid) {
+    public function get_all_by_choicepathid($choicepathid) {
         global $DB;
 
-        $records = $DB->get_records($this->table, ['choicepathid' => $cmid]);
+        $records = $DB->get_records($this->table, ['choicepathid' => $choicepathid]);
 
         if (!$records) {
             return [];
@@ -67,7 +62,7 @@ class option extends base {
                 'id' => $record->id,
                 'title' => format_string($record->title),
                 'description' => format_text($record->description, $record->descriptionformat),
-                'image' => $this->get_image($record->id, $cmid),
+                'image' => $this->get_image($record->id, $choicepathid),
             ];
         }
 
@@ -99,7 +94,12 @@ class option extends base {
     }
 
     public function get_image_files($optionid, $choicepathid) {
-        $context = context_module::instance($choicepathid);
+        global $DB;
+
+        $moduleinstance = $DB->get_record('choicepath', ['id' => $choicepathid], '*', MUST_EXIST);
+        $cm = get_coursemodule_from_instance('choicepath', $moduleinstance->id, $moduleinstance->course, false, MUST_EXIST);
+
+        $context = context_module::instance($cm->id);
 
         $fs = get_file_storage();
 
@@ -133,14 +133,37 @@ class option extends base {
                 }
             }
 
-            return [true, get_string('deleteitem:success', 'local_library')];
+            return [true, get_string('deleteitem:success', 'mod_choicepath')];
         } catch (\Exception $e) {
             if ($CFG->debugdisplay) {
                 return [false, $e->getMessage()];
             }
 
-            return [false, get_string('something_went_wrong', 'local_library')];
+            return [false, get_string('something_went_wrong', 'mod_choicepath')];
         }
     }
 
+    public function find($id, $fields = '*', $strictness = MUST_EXIST) {
+        global $DB;
+
+        return $DB->get_record($this->table, ['id' => $id], $fields, $strictness);
+    }
+
+    public function get_all() {
+        global $DB;
+
+        $records = $DB->get_records($this->table);
+
+        if (!$records) {
+            return [];
+        }
+
+        return array_values($records);
+    }
+
+    public function count() {
+        global $DB;
+
+        return $DB->count_records($this->table);
+    }
 }
