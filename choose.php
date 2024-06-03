@@ -31,7 +31,7 @@ $cm = get_coursemodule_from_id('choicepath', $cmid, 0, false, MUST_EXIST);
 $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
 $moduleinstance = $DB->get_record('choicepath', ['id' => $cm->instance], '*', MUST_EXIST);
 
-$option = $DB->get_record('choicepath_options', ['id' => $id, 'choicepathid' => $cm->id], '*', MUST_EXIST);
+$option = $DB->get_record('choicepath_options', ['id' => $id, 'choicepathid' => $moduleinstance->id], '*', MUST_EXIST);
 
 require_login($course, true, $cm);
 
@@ -43,7 +43,7 @@ if (!confirm_sesskey()) {
 
 try {
     $hasanswer = $DB->get_record('choicepath_answers', [
-        'choicepathid' =>  $cm->id,
+        'choicepathid' =>  $moduleinstance->id,
         'userid' => $USER->id
     ]);
 
@@ -52,7 +52,7 @@ try {
     }
 
     $answer = new stdClass();
-    $answer->choicepathid = $cm->id;
+    $answer->choicepathid = $moduleinstance->id;
     $answer->optionid = $option->id;
     $answer->userid = $USER->id;
     $answer->timecreated = time();

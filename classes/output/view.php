@@ -67,6 +67,7 @@ class view implements renderable, templatable {
         }
 
         return [
+            'choicepathid' =>  $this->choicepath->id,
             'cmid' => $this->cm->id,
             'name' => format_string($this->choicepath->name),
             'intro' => format_text($this->choicepath->intro, $this->choicepath->introformat),
