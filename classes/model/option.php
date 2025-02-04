@@ -125,6 +125,8 @@ class option {
 
             $DB->delete_records($this->table, ['id' => $id]);
 
+            $DB->delete_records('choicepath_answers', ['optionid' => $id]);
+
             $images = $this->get_image_files($id, $option->choicepathid);
 
             if ($images) {
@@ -132,6 +134,12 @@ class option {
                     $image->delete();
                 }
             }
+
+            list($course, $cm) = get_course_and_cm_from_instance($option->choicepathid, 'choicepath');
+            $context = context_module::instance($cm);
+
+            $event = \mod_choicepath\event\option_deleted::create(['context' => $context, 'objectid' => $id]);
+            $event->trigger();
 
             return [true, get_string('deleteitem:success', 'mod_choicepath')];
         } catch (\Exception $e) {
