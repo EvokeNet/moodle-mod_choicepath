@@ -72,7 +72,7 @@ class options extends \moodleform {
 
             $option = $optionmodel->find($this->_customdata->id);
 
-            $context = context_module::instance($option->choicepathid);
+            $context = context_module::instance($this->_customdata->cmid);
 
             $draftitemid = file_get_submitted_draft_itemid('image');
             file_prepare_draft_area($draftitemid, $context->id, 'mod_choicepath', 'image', $option->id, ['subdirs' => 0, 'maxfiles' => 1, 'accepted_types' => ['optimised_image']]);

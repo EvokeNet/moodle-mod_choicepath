@@ -94,6 +94,10 @@ if ($action == 'delete') {
     }
 }
 
+if ($action == 'update') {
+    $option->cmid = $cmid;
+}
+
 $form = new \mod_choicepath\form\options(new moodle_url('/mod/choicepath/options.php', $params), $option);
 
 if ($form->is_cancelled()) {
