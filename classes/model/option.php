@@ -136,9 +136,8 @@ class option {
             }
 
             list($course, $cm) = get_course_and_cm_from_instance($option->choicepathid, 'choicepath');
-            $context = context_module::instance($cm);
 
-            $event = \mod_choicepath\event\option_deleted::create(['context' => $context, 'objectid' => $id]);
+            $event = \mod_choicepath\event\option_deleted::create(['context' => $cm->context, 'objectid' => $id]);
             $event->trigger();
 
             return [true, get_string('deleteitem:success', 'mod_choicepath')];

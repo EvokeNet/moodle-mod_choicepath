@@ -35,7 +35,7 @@ class option_deleted extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'd';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'evokegame_points';
+        $this->data['objecttable'] = 'choicepath_options';
     }
 
     public static function get_objectid_mapping() {
